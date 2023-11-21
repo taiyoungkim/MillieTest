@@ -16,3 +16,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "MillieTest"
 include(":app")
+include(":core:domain")
+include(":core:model")
+include(":core:network")
+include(":core:data")
