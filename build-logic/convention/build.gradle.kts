@@ -19,6 +19,7 @@ tasks.withType<KotlinCompile>().configureEach {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
 }
 
 gradlePlugin {
@@ -58,6 +59,10 @@ gradlePlugin {
         register("androidHilt") {
             id = "tydev.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "tydev.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }

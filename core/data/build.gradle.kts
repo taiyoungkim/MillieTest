@@ -18,9 +18,9 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
     implementation(project(":core:network"))
+    implementation(project(":core:local"))
 
     implementation(libs.androidx.core.ktx)
-
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.core)

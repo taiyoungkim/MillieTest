@@ -17,8 +17,8 @@ class NewsViewModel @Inject constructor(
     getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
 ): ViewModel() {
     val topHeadlinesState: StateFlow<TopHeadlinesState> = getTopHeadlinesUseCase()
-        .map { newsResponse ->
-            TopHeadlinesState.Success(newsResponse.articles)
+        .map { articles ->
+            TopHeadlinesState.Success(articles)
         }
         .catch { exception ->
             TopHeadlinesState.Error(exception)
