@@ -8,9 +8,19 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
 /captures
 .externalNativeBuild
 .cxx
+
+# generated files
+bin/
+gen/
+out/
+build/
+/build-logic/convention/build/
+
+# Java class files
+*.class
+
 local.properties
 secrets.defaults.properties

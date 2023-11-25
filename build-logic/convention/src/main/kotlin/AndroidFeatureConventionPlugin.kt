@@ -27,14 +27,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", project(":core:model"))
                 add("implementation", project(":core:data"))
-                add("implementation", project(":core:common"))
                 add("implementation", project(":core:domain"))
-                add("implementation", project(":core:designsystem"))
 
                 add("testImplementation", kotlin("test"))
-                add("testImplementation", project(":core:testing"))
                 add("androidTestImplementation", kotlin("test"))
-                add("androidTestImplementation", project(":core:testing"))
 
                 add("implementation", libs.findLibrary("coil.kt").get())
                 add("implementation", libs.findLibrary("coil.kt.compose").get())
@@ -45,7 +41,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
                 add("implementation", libs.findLibrary("androidx.core.ktx").get())
                 add("implementation", libs.findLibrary("androidx.compose.runtime").get())
-                add("implementation", libs.findLibrary("androidx.compose.material2").get())
+                add("implementation", libs.findLibrary("androidx.compose.material").get())
                 add("implementation", libs.findLibrary("androidx.compose.ui.tooling").get())
             }
         }

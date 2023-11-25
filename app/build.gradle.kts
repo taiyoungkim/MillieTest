@@ -51,6 +51,9 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
+    implementation(project(":core:ui"))
+
+    implementation(project(":feature:headline"))
 
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.activity.compose)
@@ -68,8 +71,6 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.compose)
-
-    api(libs.androidx.tracing.ktx)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
