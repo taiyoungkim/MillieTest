@@ -53,7 +53,7 @@ fun NewsItem(
             Text(
                 modifier = Modifier.padding(top = 8.dp),
                 text = news.title,
-                maxLines = 2,
+                maxLines = 2, 
                 lineHeight = 18.sp,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
@@ -64,7 +64,6 @@ fun NewsItem(
                 modifier = Modifier.padding(vertical = 6.dp),
                 text = news.description ?: "",
                 maxLines = 3,
-                color = Black.copy(alpha = 0.7f),
                 overflow = TextOverflow.Ellipsis,
                 lineHeight = 18.sp,
                 fontSize = 15.sp,

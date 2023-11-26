@@ -14,7 +14,7 @@ data class ArticleEntity(
     val description: String?,
     val urlToImage: String?,
     val publishedAt: String,
-    val content: String?
+    val content: String?,
 )
 
 fun ArticleEntity.asExternalModel() = Article(

@@ -2,6 +2,7 @@ package com.tydev.millietest.core.network.di
 
 import com.tydev.millietest.core.network.BuildConfig
 import com.tydev.millietest.core.network.NetworkDataSource
+import com.tydev.millietest.core.network.retrofit.NetworkInterceptor
 import com.tydev.millietest.core.network.retrofit.RetrofitNetwork
 import dagger.Module
 import dagger.Provides
@@ -25,23 +26,25 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().build()
-    }
+    fun provideNetworkInterceptor(): NetworkInterceptor = NetworkInterceptor()
 
-    @Provides
     @Singleton
-    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder()
-        .addInterceptor(
-            HttpLoggingInterceptor().apply {
-                level = if (BuildConfig.DEBUG) {
-                    HttpLoggingInterceptor.Level.BODY
-                } else {
-                    HttpLoggingInterceptor.Level.NONE
-                }
-            },
-        )
-        .build()
+    @Provides
+    fun provideOkHttpClient(
+        networkInterceptor: NetworkInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(networkInterceptor)
+            .addInterceptor(
+                HttpLoggingInterceptor()
+                    .apply {
+                        if (BuildConfig.DEBUG) {
+                            setLevel(HttpLoggingInterceptor.Level.BODY)
+                        }
+                    }
+            )
+            .build()
+    }
 
     @Provides
     @Singleton

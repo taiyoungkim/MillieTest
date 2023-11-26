@@ -1,6 +1,5 @@
 package com.tydev.millietest.feature.headline.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,11 +21,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun NewsRoute(
     viewModel: NewsViewModel = hiltViewModel(),
     onNewsClick: (String) -> Unit,
+    onError: (String) -> Unit,
 ) {
     val state by viewModel.topHeadlinesState.collectAsStateWithLifecycle()
     NewsScreen(
         state = state,
-        onNewsClick = onNewsClick
+        onNewsClick = onNewsClick,
+        onError = onError,
     )
 }
 
@@ -34,6 +35,7 @@ fun NewsRoute(
 fun NewsScreen(
     state: TopHeadlinesState,
     onNewsClick: (String) -> Unit,
+    onError: (String) -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -60,7 +62,7 @@ fun NewsScreen(
                 )
             }
             is TopHeadlinesState.Error -> {
-//                ErrorUI(state.exception)
+                onError(state.exception.message.toString())
             }
         }
     }

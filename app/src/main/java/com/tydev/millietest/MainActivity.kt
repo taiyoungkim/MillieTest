@@ -2,6 +2,7 @@ package com.tydev.millietest
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,12 +24,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NewsRoute {
-                        val intent = Intent(this, HeadlineDetailActivity::class.java)
-                        intent.putExtra("url", it)
+                    NewsRoute(
+                        onNewsClick =  {
+                            val intent = Intent(this, HeadlineDetailActivity::class.java)
+                            intent.putExtra("url", it)
 
-                        startActivity(intent)
-                    }
+                            startActivity(intent)
+                        },
+                        onError = {
+                            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                        }
+                    )
                 }
             }
         }
