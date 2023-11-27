@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -26,15 +27,11 @@ private interface NetworkApi {
 
 private const val BASE_URL = BuildConfig.BACKEND_URL
 
-@Serializable
-private data class NetworkResponse<T>(
-    val data: T,
-)
-
 @Singleton
 class RetrofitNetwork @Inject constructor(
     networkJson: Json,
     okhttpCallFactory: Call.Factory,
+    responseCallAdapter: CallAdapter.Factory,
 ): NetworkDataSource {
 
     private val networkApi = Retrofit.Builder()
@@ -43,7 +40,7 @@ class RetrofitNetwork @Inject constructor(
         .addConverterFactory(
             networkJson.asConverterFactory("application/json".toMediaType()),
         )
-        .addCallAdapterFactory(ApiResponseCallAdapterFactory())
+        .addCallAdapterFactory(responseCallAdapter)
         .build()
         .create(NetworkApi::class.java)
 

@@ -2,6 +2,7 @@ package com.tydev.millietest.core.network.di
 
 import com.tydev.millietest.core.network.BuildConfig
 import com.tydev.millietest.core.network.NetworkDataSource
+import com.tydev.millietest.core.network.retrofit.ApiResponseCallAdapterFactory
 import com.tydev.millietest.core.network.retrofit.NetworkInterceptor
 import com.tydev.millietest.core.network.retrofit.RetrofitNetwork
 import dagger.Module
@@ -12,6 +13,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.CallAdapter
 import javax.inject.Singleton
 
 @Module
@@ -27,6 +29,10 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideNetworkInterceptor(): NetworkInterceptor = NetworkInterceptor()
+
+    @Singleton
+    @Provides
+    fun provideApiResponseCallAdapterFactory() : CallAdapter.Factory = ApiResponseCallAdapterFactory()
 
     @Singleton
     @Provides
@@ -51,7 +57,8 @@ object NetworkModule {
     fun provideNetworkDataSource(
         networkJson: Json,
         okhttpCallFactory: OkHttpClient,
+        responseCallAdapter: CallAdapter.Factory,
     ): NetworkDataSource {
-        return RetrofitNetwork(networkJson, okhttpCallFactory)
+        return RetrofitNetwork(networkJson, okhttpCallFactory, responseCallAdapter)
     }
 }

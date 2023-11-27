@@ -37,12 +37,11 @@ class NewsRepositoryImpl @Inject constructor(
     private suspend fun FlowCollector<List<Article>>.handleSuccessfulResponse(response: NewsResponse) {
         val remoteArticles = response.articles.map { it.asInternalModel() }
         val mappingData = remoteArticles.map { article ->
-            val existingArticle = newsArticleDao.getArticleByUrlAndPublishedAt(article.url, article.publishedAt)
-            if (existingArticle == null) {
+            newsArticleDao.getArticleByUrlAndPublishedAt(article.url, article.publishedAt)?.let { existingArticle ->
+                article.copy(isRead = existingArticle.isRead)
+            } ?: run {
                 newsArticleDao.insert(article)
                 article
-            } else {
-                article.copy(isRead = existingArticle.isRead)
             }
         }
         emit(mappingData.map { it.asExternalModel() })

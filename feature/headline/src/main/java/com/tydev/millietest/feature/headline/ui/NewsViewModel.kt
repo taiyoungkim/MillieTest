@@ -6,6 +6,7 @@ import com.tydev.millietest.core.domain.usecase.GetTopHeadlinesUseCase
 import com.tydev.millietest.core.domain.usecase.SetTopHeadlineAsReadUseCase
 import com.tydev.millietest.core.model.data.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,19 +31,6 @@ class NewsViewModel @Inject constructor(
     init {
         fetchTopHeadlines()
     }
-
-//    val topHeadlinesState: StateFlow<TopHeadlinesState> = getTopHeadlinesUseCase()
-//        .map { articles ->
-//            TopHeadlinesState.Success(articles)
-//        }
-//        .catch { exception ->
-//            TopHeadlinesState.Error(exception)
-//        }
-//        .stateIn(
-//            scope = viewModelScope,
-//            started = SharingStarted.WhileSubscribed(5000L),
-//            initialValue = TopHeadlinesState.Loading
-//        )
 
     private fun fetchTopHeadlines() {
         viewModelScope.launch {
@@ -58,7 +47,10 @@ class NewsViewModel @Inject constructor(
                     when (currentState) {
                         is TopHeadlinesState.Success -> {
                             val updatedArticles = currentState.articles.map {
-                                if (it.url == updatedArticle.url && it.publishedAt == updatedArticle.publishedAt) updatedArticle else it
+                                if (it.url == updatedArticle.url && it.publishedAt == updatedArticle.publishedAt)
+                                    updatedArticle
+                                else
+                                    it
                             }
                             TopHeadlinesState.Success(updatedArticles)
                         }
