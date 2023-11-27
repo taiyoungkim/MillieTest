@@ -16,17 +16,21 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tydev.millietest.core.model.data.Article
 
 @Composable
 fun NewsRoute(
     viewModel: NewsViewModel = hiltViewModel(),
-    onNewsClick: (String) -> Unit,
+    onNewsClick: (Article) -> Unit,
     onError: (String) -> Unit,
 ) {
     val state by viewModel.topHeadlinesState.collectAsStateWithLifecycle()
     NewsScreen(
         state = state,
-        onNewsClick = onNewsClick,
+        onNewsClick = { article ->
+            viewModel.markArticleAsRead(article)
+            onNewsClick(article)
+        },
         onError = onError,
     )
 }
@@ -34,7 +38,7 @@ fun NewsRoute(
 @Composable
 fun NewsScreen(
     state: TopHeadlinesState,
-    onNewsClick: (String) -> Unit,
+    onNewsClick: (Article) -> Unit,
     onError: (String) -> Unit,
 ) {
     Surface(
@@ -55,7 +59,7 @@ fun NewsScreen(
                             NewsItem(
                                 news = it
                             ) {
-                                onNewsClick(it.url)
+                                onNewsClick(it)
                             }
                         }
                     }

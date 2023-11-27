@@ -15,6 +15,7 @@ data class ArticleEntity(
     val urlToImage: String?,
     val publishedAt: String,
     val content: String?,
+    val isRead: Boolean = false,
 )
 
 fun ArticleEntity.asExternalModel() = Article(
@@ -26,6 +27,7 @@ fun ArticleEntity.asExternalModel() = Article(
     urlToImage = urlToImage,
     publishedAt = publishedAt,
     content = content,
+    isRead = isRead,
 )
 
 fun Article.asInternalModel() = ArticleEntity(
@@ -37,4 +39,5 @@ fun Article.asInternalModel() = ArticleEntity(
     urlToImage = urlToImage,
     publishedAt = publishedAt,
     content = content,
+    isRead = isRead,
 )

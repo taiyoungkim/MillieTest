@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     NewsRoute(
                         onNewsClick =  {
                             val intent = Intent(this, HeadlineDetailActivity::class.java)
-                            intent.putExtra("url", it)
+                            intent.putExtra("url", it.url)
 
                             startActivity(intent)
                         },

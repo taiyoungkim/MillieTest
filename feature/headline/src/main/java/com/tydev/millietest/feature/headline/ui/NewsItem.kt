@@ -57,6 +57,7 @@ fun NewsItem(
                 lineHeight = 18.sp,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
+                color = if (news.isRead) Color.Red else Black,
                 overflow = TextOverflow.Ellipsis,
             )
 

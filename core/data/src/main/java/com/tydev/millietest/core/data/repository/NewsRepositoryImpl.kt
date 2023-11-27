@@ -27,15 +27,25 @@ class NewsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setTopHeadlineAsRead(article: Article): Flow<Article> = flow {
+        newsArticleDao.updateReadStatus(article.url, article.publishedAt, true)
+        val data = newsArticleDao.getArticleByUrlAndPublishedAt(article.url, article.publishedAt)
+        if (data != null)
+            emit(data.asExternalModel())
+    }
+
     private suspend fun FlowCollector<List<Article>>.handleSuccessfulResponse(response: NewsResponse) {
         val remoteArticles = response.articles.map { it.asInternalModel() }
-        remoteArticles.forEach { article ->
+        val mappingData = remoteArticles.map { article ->
             val existingArticle = newsArticleDao.getArticleByUrlAndPublishedAt(article.url, article.publishedAt)
             if (existingArticle == null) {
                 newsArticleDao.insert(article)
+                article
+            } else {
+                article.copy(isRead = existingArticle.isRead)
             }
         }
-        emit(remoteArticles.map { it.asExternalModel() })
+        emit(mappingData.map { it.asExternalModel() })
     }
 
     private suspend fun FlowCollector<List<Article>>.emitFallbackData(response: ApiResponse.Error?) {
