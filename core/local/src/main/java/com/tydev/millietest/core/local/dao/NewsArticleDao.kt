@@ -32,4 +32,7 @@ interface NewsArticleDao {
 
     @Query("DELETE FROM ArticleEntity")
     suspend fun deleteNewsArticles()
+
+    @Delete
+    suspend fun delete(article: ArticleEntity)
 }

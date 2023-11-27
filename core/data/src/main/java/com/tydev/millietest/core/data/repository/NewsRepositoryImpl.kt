@@ -10,6 +10,7 @@ import com.tydev.millietest.core.model.data.NewsResponse
 import com.tydev.millietest.core.network.NetworkDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -36,6 +37,14 @@ class NewsRepositoryImpl @Inject constructor(
 
     private suspend fun FlowCollector<List<Article>>.handleSuccessfulResponse(response: NewsResponse) {
         val remoteArticles = response.articles.map { it.asInternalModel() }
+        val localData = newsArticleDao.getAll().first()
+
+        localData.forEach { localArticle ->
+            if (remoteArticles.none { it.url == localArticle.url && it.publishedAt == localArticle.publishedAt }) {
+                newsArticleDao.delete(localArticle)
+            }
+        }
+
         val mappingData = remoteArticles.map { article ->
             newsArticleDao.getArticleByUrlAndPublishedAt(article.url, article.publishedAt)?.let { existingArticle ->
                 article.copy(isRead = existingArticle.isRead)

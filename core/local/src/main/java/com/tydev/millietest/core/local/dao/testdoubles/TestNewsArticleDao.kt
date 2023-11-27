@@ -45,4 +45,8 @@ class TestNewsArticleDao : NewsArticleDao {
     override suspend fun deleteNewsArticles() {
         articles.value = emptyList()
     }
+
+    override suspend fun delete(article: ArticleEntity) {
+        articles.value = articles.value.filterNot { it.url == article.url && it.publishedAt == article.publishedAt }
+    }
 }
