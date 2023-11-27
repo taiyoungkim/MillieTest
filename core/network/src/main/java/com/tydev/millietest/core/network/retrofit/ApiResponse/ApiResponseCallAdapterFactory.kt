@@ -1,4 +1,4 @@
-package com.tydev.millietest.core.network.retrofit
+package com.tydev.millietest.core.network.retrofit.ApiResponse
 
 import com.tydev.millietest.core.model.data.ApiResponse
 import retrofit2.Call

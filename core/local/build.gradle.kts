@@ -9,7 +9,7 @@ android {
     namespace = "com.tydev.millietest.core.local"
     defaultConfig {
         testInstrumentationRunner =
-            "com.tydev.core.millietest.testing.MyTestRunner"
+            "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 

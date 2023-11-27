@@ -18,7 +18,7 @@ android {
         versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         testInstrumentationRunner =
-            "com.tydev.core.millietest.testing.MyTestRunner"
+            "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }

@@ -1,22 +1,18 @@
 package com.tydev.millietest.feature.headline.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tydev.millietest.core.domain.usecase.GetTopHeadlinesUseCase
 import com.tydev.millietest.core.domain.usecase.SetTopHeadlineAsReadUseCase
 import com.tydev.millietest.core.model.data.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +30,11 @@ class NewsViewModel @Inject constructor(
 
     private fun fetchTopHeadlines() {
         viewModelScope.launch {
-            getTopHeadlinesUseCase().collect { articles ->
+            getTopHeadlinesUseCase()
+                .catch {
+                    Log.e("test", it.message.toString())
+                }
+                .collect { articles ->
                 _topHeadlinesState.value = TopHeadlinesState.Success(articles)
             }
         }
